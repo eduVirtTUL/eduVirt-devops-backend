@@ -1,11 +1,11 @@
 package pl.lodz.p.it.eduvirt.util;
 
+import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import lombok.extern.slf4j.Slf4j;
 import org.ovirt.engine.sdk4.Connection;
 import org.ovirt.engine.sdk4.ConnectionBuilder;
 import org.ovirt.engine.sdk4.services.SystemService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.ApplicationScope;
@@ -17,32 +17,27 @@ import java.util.Objects;
 @ApplicationScope
 public class ConnectionWrapperImpl implements ConnectionWrapper {
 
-    private final Connection connection;
+    private Connection connection;
 
-    @Autowired
-    public ConnectionWrapperImpl(@Value("${ovirt.engine.url}") String url,
-                                 @Value("${ovirt.engine.username}") String username,
-                                 @Value("${ovirt.engine.password}") String password,
-                                 @Value("${ovirt.engine.jks.file}") String jksFile,
-                                 @Value("${ovirt.engine.jks.password}") String jksPassword
-    ) {
-        Connection connectionTmp = null;
-        try {
-            // Create a connection to the server:
-            connectionTmp = ConnectionBuilder.connection()
-                    .url(url + "/api")
-                    .user(username)
-                    .password(password)
-                    .trustStoreFile(jksFile)
-                    .trustStorePassword(jksPassword)
-                    .build();
-        } catch (Throwable e) {
-            log.error("Error opening connection!!!");
-            if (log.isDebugEnabled()) {
-                log.error(e.getMessage(), e);
-            }
-        }
-        connection = connectionTmp;
+    @Value("${ovirt.engine.url}")
+    private String url;
+
+    @Value("${ovirt.engine.username}")
+    private String username;
+
+    @Value("${ovirt.engine.password}")
+    private String password;
+
+    @Value("${ovirt.engine.jks.file}")
+    private String jksFile;
+
+    @Value("${ovirt.engine.jks.password}")
+    private String jksPassword;
+
+
+    @PostConstruct
+    private void init() {
+        initConnection();
     }
 
     @PreDestroy
@@ -81,5 +76,34 @@ public class ConnectionWrapperImpl implements ConnectionWrapper {
     @Override
     public boolean validate() {
         return connection.validate();
+    }
+
+    @Override
+    public void renewConnection() {
+        if (Objects.nonNull(connection)) {
+            throw new IllegalStateException("The connection is currently set up");
+        }
+
+        initConnection();
+    }
+
+    private void initConnection() {
+        Connection connectionTmp = null;
+        try {
+            // Create a connection to the server:
+            connectionTmp = ConnectionBuilder.connection()
+                    .url(url + "/api")
+                    .user(username)
+                    .password(password)
+                    .trustStoreFile(jksFile)
+                    .trustStorePassword(jksPassword)
+                    .build();
+        } catch (Throwable e) {
+            log.error("Error opening connection!!!");
+            if (log.isDebugEnabled()) {
+                log.error(e.getMessage(), e);
+            }
+        }
+        connection = connectionTmp;
     }
 }

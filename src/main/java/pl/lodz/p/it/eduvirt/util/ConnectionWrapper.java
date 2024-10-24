@@ -13,4 +13,6 @@ public interface ConnectionWrapper {
     String authenticate();
 
     boolean validate();
+
+    void renewConnection();
 }
