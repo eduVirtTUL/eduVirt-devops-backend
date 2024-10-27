@@ -6,7 +6,7 @@ import org.ovirt.engine.sdk4.Connection;
 import org.ovirt.engine.sdk4.types.Vm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import pl.lodz.p.it.eduvirt.util.ConnectionFactory;
+import pl.lodz.p.it.eduvirt.util.connection.ConnectionFactory;
 
 import java.util.ArrayList;
 import java.util.List;
