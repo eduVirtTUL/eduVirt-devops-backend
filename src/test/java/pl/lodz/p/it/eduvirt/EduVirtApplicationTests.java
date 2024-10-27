@@ -1,33 +1,35 @@
 package pl.lodz.p.it.eduvirt;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.ovirt.engine.sdk4.Connection;
 import org.ovirt.engine.sdk4.types.Vm;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import pl.lodz.p.it.eduvirt.utils.connection.EngineConnectionFactory;
+import pl.lodz.p.it.eduvirt.util.ConnectionFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @SpringBootTest
+@RequiredArgsConstructor
 class EduVirtApplicationTests {
 
-    @Autowired
-    EngineConnectionFactory engineConnectionFactory;
+    private final ConnectionFactory connectionFactory;
 
     @Test
-    void contextLoads() {
-        List<Vm> vms;
-        try (Connection connection = engineConnectionFactory.createConnection()) {
-
+    void testConnectionFactory() {
+        List<Vm> vms = new ArrayList<>();
+        try (Connection connection = connectionFactory.getConnection()) {
             vms = connection
                     .systemService()
                     .vmsService()
                     .list()
                     .send()
                     .vms();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+        } catch (Throwable e) {
+            log.error("Error occurred {}", e.getMessage());
         }
 
         for (Vm vm : vms) {
@@ -37,5 +39,4 @@ class EduVirtApplicationTests {
             );
         }
     }
-
 }

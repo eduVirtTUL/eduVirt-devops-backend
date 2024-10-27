@@ -11,12 +11,5 @@ spring:
   h2:
     console:
       enabled: true
-
-ovirt:
-  engine:
-    url: ${OVIRT_ENGINE_URL}
-    username: ${OVIRT_ENGINE_USERNAME}
-    password: ${OVIRT_ENGINE_PASSWORD}
-    jks:
-      file: ${OVIRT_ENGINE_JKS_FILE}
-      password: ${OVIRT_ENGINE_JKS_PASSWORD}
+  config:
+    import: optional:classpath:ovirt.yaml
