@@ -1,4 +1,4 @@
-package pl.lodz.p.it.eduvirt.util;
+package pl.lodz.p.it.eduvirt.util.connection;
 
 import lombok.extern.slf4j.Slf4j;
 import org.ovirt.engine.sdk4.Connection;
@@ -26,10 +26,9 @@ public class ConnectionFactory {
     private String jksPassword;
 
     public Connection getConnection() {
-        Connection connectionTmp = null;
         try {
             // Create a connection to the server:
-            connectionTmp = ConnectionBuilder.connection()
+            return ConnectionBuilder.connection()
                     .url(url + "/api")
                     .user(username)
                     .password(password)
@@ -38,10 +37,9 @@ public class ConnectionFactory {
                     .build();
         } catch (Throwable e) {
             log.error("Error opening connection!!!");
-            if (log.isDebugEnabled()) {
-                log.error(e.getMessage(), e);
-            }
+            log.debug(e.getMessage(), e);
+
+            throw new OpeningConnectionException(e.getMessage(), e);
         }
-        return connectionTmp;
     }
 }
