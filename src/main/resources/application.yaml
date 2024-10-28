@@ -2,14 +2,28 @@ spring:
   application:
     name: eduVirt
   datasource:
-    url: jdbc:h2:mem:testdb
-    driver-class-name: org.h2.Driver
-    username: sa
-    password: password
+    driver-class-name: ${DB_DRIVER_CLASS}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    url: ${DB_URL}
+  sql:
+    init:
+      mode: @init-mode@
   jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: @debug-sql@
+    defer-datasource-initialization: @init-datasource@
+    hibernate:
+      ddl-auto: @schema-gen-policy@
+    properties:
+      hibernate:
+        format_sql: @debug-sql@
   h2:
     console:
       enabled: true
   config:
-    import: optional:classpath:ovirt.yaml
+    import: optional:classpath:ovirt.yaml,optional:classpath:h2-db.yaml
+  profiles:
+    active: @spring.profiles.active@
+
+
+

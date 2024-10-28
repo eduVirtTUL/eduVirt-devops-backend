@@ -41,7 +41,8 @@
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <!--Encoding-->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-
+        <!-- DB -->
+        <postgresql-version>42.7.4</postgresql-version>
         <!--VERSIONS-->
         <ovirt-api-sdk.version>4.5.1</ovirt-api-sdk.version>
     </properties>
@@ -52,10 +53,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -67,6 +70,13 @@
             <artifactId>h2</artifactId>
             <scope>runtime</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${postgresql.version}</version>
+        </dependency>
+
 
         <!--LOMBOK-->
         <dependency>
@@ -80,6 +90,7 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-test</artifactId>
@@ -111,5 +122,34 @@
             </plugin>
         </plugins>
     </build>
+
+    <profiles>
+        <profile>
+            <id>prod</id>
+            <properties>
+                <schema-gen-policy>update</schema-gen-policy>
+                <debug-sql>false</debug-sql>
+                <logging-level>INFO</logging-level>
+                <init-mode>never</init-mode>
+                <init-datasource>false</init-datasource>
+                <spring.profiles.active>prod</spring.profiles.active>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <schema-gen-policy>create-drop</schema-gen-policy>
+                <debug-sql>true</debug-sql>
+                <logging-level>DEBUG</logging-level>
+                <init-mode>always</init-mode>
+                <init-datasource>true</init-datasource>
+                <spring.profiles.active>dev</spring.profiles.active>
+            </properties>
+        </profile>
+    </profiles>
 
 </project>
