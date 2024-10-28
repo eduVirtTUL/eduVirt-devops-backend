@@ -5,7 +5,6 @@ import jakarta.persistence.MappedSuperclass;
 import jakarta.persistence.Version;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import pl.lodz.p.it.eduvirt.util.consts.DatabaseConstants;
 
 @MappedSuperclass
 @Getter
@@ -13,7 +12,7 @@ import pl.lodz.p.it.eduvirt.util.consts.DatabaseConstants;
 public class Updatable extends AbstractEntity {
 
     @Version
-    @Column(name = DatabaseConstants.VERSION, nullable = false)
+    @Column(name = "version", nullable = false)
     private Long version;
 
     // Constructors

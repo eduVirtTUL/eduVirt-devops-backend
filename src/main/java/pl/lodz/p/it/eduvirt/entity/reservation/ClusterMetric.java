@@ -6,19 +6,15 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pl.lodz.p.it.eduvirt.entity.general.Metric;
 import pl.lodz.p.it.eduvirt.entity.reservation.keys.ClusterMetricKey;
-import pl.lodz.p.it.eduvirt.util.consts.DatabaseConstants;
 
 import java.util.UUID;
 
 @Entity
 @Table(
-        name = DatabaseConstants.CLUSTER_METRIC_TABLE,
-        indexes = {
-            @Index(name = DatabaseConstants.CLUSTER_METRIC_METRIC_ID_IDX,
-                    columnList = DatabaseConstants.CLUSTER_METRIC_METRIC_ID)
-        },
-        uniqueConstraints = @UniqueConstraint(name = DatabaseConstants.CLUSTER_METRIC_CLUSTER_ID_METRIC_ID_UNIQUE,
-                columnNames = {DatabaseConstants.CLUSTER_METRIC_CLUSTER_ID, DatabaseConstants.CLUSTER_METRIC_METRIC_ID})
+        name = "i72_metric_cluster",
+        indexes = @Index(name = "cluster_metric_metric_id_idx", columnList = "metric_id"),
+        uniqueConstraints = @UniqueConstraint(name = "cluster_metric_cluster_id_unique",
+                columnNames = {"cluster_id", "metric_id"})
 )
 @IdClass(ClusterMetricKey.class)
 @Getter @Setter
@@ -26,20 +22,20 @@ import java.util.UUID;
 public class ClusterMetric {
 
     @Id
-    @Column(name = DatabaseConstants.CLUSTER_METRIC_CLUSTER_ID, nullable = false, updatable = false)
+    @Column(name = "cluster_id", nullable = false, updatable = false)
     private UUID clusterId;
 
     @Id
     @ManyToOne
     @JoinColumn(
-            name = DatabaseConstants.CLUSTER_METRIC_METRIC_ID,
-            referencedColumnName = DatabaseConstants.PK,
-            foreignKey = @ForeignKey(name = DatabaseConstants.CLUSTER_METRIC_METRIC_ID_FK),
+            name = "metric_id",
+            referencedColumnName = "id",
+            foreignKey = @ForeignKey(name = "cluster_metric_metric_id_fk"),
             nullable = false, updatable = false
     )
     private Metric metric;
 
-    @Column(name = DatabaseConstants.CLUSTER_METRIC_VALUE)
+    @Column(name = "metric_value")
     private Double value;
 
     // Constructors

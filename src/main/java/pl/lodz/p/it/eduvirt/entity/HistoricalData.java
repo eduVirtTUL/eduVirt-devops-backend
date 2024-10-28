@@ -5,10 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.security.core.context.SecurityContextHolder;
-import pl.lodz.p.it.eduvirt.util.consts.DatabaseConstants;
 
-import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @MappedSuperclass
@@ -16,19 +14,19 @@ import java.util.UUID;
 @NoArgsConstructor
 public class HistoricalData extends Updatable {
 
-    @Column(name = DatabaseConstants.CREATED_BY, updatable = false)
+    @Column(name = "created_by", updatable = false)
     private UUID createdBy;
 
-    @Column(name = DatabaseConstants.UPDATED_BY)
+    @Column(name = "updated_by")
     private UUID updatedBy;
 
-    @Column(name = DatabaseConstants.CREATED_AT, updatable = false)
+    @Column(name = "_created_at", updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    private OffsetDateTime createdAt;
+    private LocalDateTime createdAt;
 
-    @Column(name = DatabaseConstants.UPDATED_AT)
+    @Column(name = "_updated_at")
     @Temporal(TemporalType.TIMESTAMP)
-    private OffsetDateTime updatedAt;
+    private LocalDateTime updatedAt;
 
     // Constructors
 
@@ -42,13 +40,13 @@ public class HistoricalData extends Updatable {
     public void changeCreateData() {
         //TODO: Change it later, when authentication is implemented (to put user's id in the context as well)
         this.createdBy = (UUID) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        this.createdAt = OffsetDateTime.now(ZoneOffset.UTC);
+        this.createdAt = LocalDateTime.now();
     }
 
     @PreUpdate
     public void changeUpdateData() {
         //TODO: Change it later, when authentication is implemented (to put user's id in the context as well)
         this.updatedBy = (UUID) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        this.updatedAt = OffsetDateTime.now(ZoneOffset.UTC);
+        this.updatedAt = LocalDateTime.now();
     }
 }

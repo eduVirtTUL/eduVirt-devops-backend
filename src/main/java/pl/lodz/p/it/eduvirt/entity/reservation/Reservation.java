@@ -6,40 +6,39 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pl.lodz.p.it.eduvirt.entity.HistoricalData;
-import pl.lodz.p.it.eduvirt.util.consts.DatabaseConstants;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = DatabaseConstants.RESERVATION_TABLE)
+@Table(name = "i72_reservation")
 @Getter @Setter
 @NoArgsConstructor
 public class Reservation extends HistoricalData {
 
-    @Column(name = DatabaseConstants.RESERVATION_RESOURCE_GROUP_ID, nullable = false, updatable = false)
+    @Column(name = "rg_id", nullable = false, updatable = false)
     private UUID resourceGroupId;
 
-    @Column(name = DatabaseConstants.RESERVATION_TEAM_ID, nullable = false, updatable = false)
+    @Column(name = "team_id", nullable = false, updatable = false)
     private UUID teamId;
 
-    @Column(name = DatabaseConstants.RESERVATION_START, nullable = false)
+    @Column(name = "reservation_start", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    private OffsetDateTime startTime;
+    private LocalDateTime startTime;
 
-    @Column(name = DatabaseConstants.RESERVATION_END, nullable = false)
+    @Column(name = "reservation_end", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    private OffsetDateTime endTime;
+    private LocalDateTime endTime;
 
-    @Column(name = DatabaseConstants.RESERVATION_AUTOMATIC_STARTUP, nullable = false)
+    @Column(name = "automatic_startup", nullable = false)
     private Boolean automaticStartup = true;
 
     // Constructors
 
     public Reservation(UUID resourceGroupId,
                        UUID teamId,
-                       OffsetDateTime startTime,
-                       OffsetDateTime endTime,
+                       LocalDateTime startTime,
+                       LocalDateTime endTime,
                        Boolean automaticStartup) {
         this.resourceGroupId = resourceGroupId;
         this.teamId = teamId;
@@ -50,8 +49,8 @@ public class Reservation extends HistoricalData {
 
     @Builder
     public Reservation(Long version,
-                       OffsetDateTime startTime,
-                       OffsetDateTime endTime,
+                       LocalDateTime startTime,
+                       LocalDateTime endTime,
                        Boolean automaticStartup) {
         //super(version);
         this.startTime = startTime;

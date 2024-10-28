@@ -7,14 +7,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pl.lodz.p.it.eduvirt.entity.AbstractEntity;
-import pl.lodz.p.it.eduvirt.util.consts.DatabaseConstants;
 
 @Entity
-@Table(name = DatabaseConstants.METRIC_TABLE)
+@Table(name = "i72_metric")
 @Getter @Setter
 @NoArgsConstructor
 public class Metric extends AbstractEntity {
 
-    @Column(name = DatabaseConstants.METRIC_NAME, nullable = false, unique = true, length = 64)
+    @Column(name = "name", nullable = false, unique = true, length = 64)
     private String name;
 }

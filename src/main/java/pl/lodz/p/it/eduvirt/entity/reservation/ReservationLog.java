@@ -5,19 +5,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import pl.lodz.p.it.eduvirt.entity.reservation.keys.ReservationLogKey;
-import pl.lodz.p.it.eduvirt.util.consts.DatabaseConstants;
 
 import java.util.UUID;
 
 @Entity
 @Table(
-        name = DatabaseConstants.RESERVATION_AUDIT_LOG_TABLE,
-        indexes = {
-            @Index(name = DatabaseConstants.RESERVATION_AUDIT_LOG_RESERVATION_ID_IDX,
-                    columnList = DatabaseConstants.RESERVATION_AUDIT_LOG_RESERVATION_ID)
-        },
-        uniqueConstraints = @UniqueConstraint(name = DatabaseConstants.RESERVATION_AUDIT_LOG_RESERVATION_ID_EVENT_ID_UNIQUE,
-                columnNames = {DatabaseConstants.RESERVATION_AUDIT_LOG_RESERVATION_ID, DatabaseConstants.RESERVATION_AUDIT_LOG_EVENT_ID})
+        name = "i72_reservation_audit_log",
+        indexes = @Index(name = "reservation_audit_log_reservation_id_idx", columnList = "reservation_id"),
+        uniqueConstraints = @UniqueConstraint(name = "reservation_id_event_id_unique",
+                columnNames = {"reservation_id", "event_id"})
 )
 @IdClass(ReservationLogKey.class)
 @Getter @Setter
@@ -27,14 +23,14 @@ public class ReservationLog {
     @Id
     @ManyToOne
     @JoinColumn(
-            name = DatabaseConstants.RESERVATION_AUDIT_LOG_RESERVATION_ID,
-            referencedColumnName = DatabaseConstants.PK,
-            foreignKey = @ForeignKey(name = DatabaseConstants.RESERVATION_AUDIT_LOG_RESERVATION_ID_FK),
+            name = "reservation_id",
+            referencedColumnName = "id",
+            foreignKey = @ForeignKey(name = "reservation_audit_log_reservation_id_fk"),
             nullable = false, updatable = false
     )
     private Reservation reservation;
 
     @Id
-    @Column(name = DatabaseConstants.RESERVATION_AUDIT_LOG_EVENT_ID, nullable = false, updatable = false)
+    @Column(name = "event_id", nullable = false, updatable = false)
     private UUID eventId;
 }
