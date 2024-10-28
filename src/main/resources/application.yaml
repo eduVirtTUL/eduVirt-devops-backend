@@ -6,10 +6,25 @@ spring:
     driver-class-name: org.h2.Driver
     username: sa
     password: password
+  sql:
+    init:
+      mode: @init-mode@
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: @debug-sql@
+    defer-datasource-initialization: @init-datasource@
+    hibernate:
+      ddl-auto: @schema-gen-policy@
+    properties:
+      hibernate:
+        format_sql: @debug-sql@
   h2:
     console:
       enabled: true
   config:
-    import: optional:classpath:ovirt.yaml
+    import: optional:classpath:config/ovirt.yaml
+  profiles:
+    active: @spring.profiles.active@
+
+
+

@@ -1,0 +1,8 @@
+spring:
+  datasource:
+    driver-class-name: ${DB_DRIVER_CLASS}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    url: jdbc:${RDBMS_NAME}://${DB_HOST}:${DB_PORT}/${DB_NAME}
+  config:
+    import: optional:classpath:ovirt.yaml,optional:classpath:db.yaml
