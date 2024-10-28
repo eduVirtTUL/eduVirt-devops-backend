@@ -36,4 +36,5 @@ build/
 # Other excludes
 
 ovirt.yaml
-db.yaml
+postgres-db.yaml
+h2-db.yaml
