@@ -6,22 +6,13 @@ spring:
     username: ${DB_USERNAME}
     password: ${DB_PASSWORD}
     url: ${DB_URL}
-  sql:
-    init:
-      mode: @init-mode@
   jpa:
-    show-sql: @debug-sql@
-    defer-datasource-initialization: @init-datasource@
-    hibernate:
-      ddl-auto: @schema-gen-policy@
-    properties:
-      hibernate:
-        format_sql: @debug-sql@
+    open-in-view: false
   h2:
     console:
       enabled: true
   config:
-    import: optional:classpath:ovirt.yaml,optional:classpath:h2-db.yaml
+    import: optional:classpath:ovirt.yaml,optional:classpath:postgres-db.yaml
   profiles:
     active: @spring.profiles.active@
 
