@@ -22,7 +22,7 @@ public class Course extends AbstractEntity {
     private String name;
     @Column(name = "description", nullable = false, length = 1000)
     private String description;
-    @OneToMany
+    @OneToMany(mappedBy = "course")
     private List<ResourceGroupPool> resourceGroupPools;
 
     @Override
