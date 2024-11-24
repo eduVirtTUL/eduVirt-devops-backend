@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -47,7 +46,7 @@ public class HistoricalData extends Updatable {
     @PreUpdate
     public void changeUpdateData() {
         //TODO: Change it later, when authentication is implemented (to put user's id in the context as well)
-        this.updatedBy = (UUID) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//        this.updatedBy = (UUID) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         this.updatedAt = LocalDateTime.now();
     }
 }
