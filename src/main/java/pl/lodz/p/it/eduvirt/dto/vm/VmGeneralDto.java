@@ -1,4 +1,4 @@
-package pl.lodz.p.it.eduvirt.dto;
+package pl.lodz.p.it.eduvirt.dto.vm;
 
 public record VmGeneralDto(
         String id,
@@ -8,4 +8,5 @@ public record VmGeneralDto(
         String cpuUsagePercentage,
         String memoryUsagePercentage,
         String networkUsagePercentage
-) {}
+) {
+}

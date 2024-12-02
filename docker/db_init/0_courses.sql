@@ -1,4 +1,4 @@
-INSERT INTO i72_course (id, name, description)
+INSERT INTO course (id, name, description)
 VALUES (gen_random_uuid(), 'Introduction to Computer Science',
         'This course provides an overview of computer science, including algorithms, data structures, software development, and computer systems.'),
        (gen_random_uuid(), 'Data Structures and Algorithms',

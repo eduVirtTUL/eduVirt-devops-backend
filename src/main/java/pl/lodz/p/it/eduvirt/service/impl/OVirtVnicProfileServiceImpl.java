@@ -2,6 +2,7 @@ package pl.lodz.p.it.eduvirt.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.ovirt.engine.sdk4.Connection;
+import org.ovirt.engine.sdk4.types.VnicProfile;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.lodz.p.it.eduvirt.aspect.logging.LoggerInterceptor;
@@ -37,6 +38,21 @@ public class OVirtVnicProfileServiceImpl implements OVirtVnicProfileService {
                     .stream()
                     .map(vnicProfileMapper::ovirtVnicProfileToDto)
                     .toList();
+        } catch (Exception e) {
+            //todo: error handling
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public VnicProfile getVnicProfileById(String vnicProfileId) {
+        try (Connection connection = connectionFactory.getConnection()) {
+            return connection.systemService()
+                    .vnicProfilesService()
+                    .profileService(vnicProfileId)
+                    .get()
+                    .send()
+                    .profile();
         } catch (Exception e) {
             //todo: error handling
             throw new RuntimeException(e);
