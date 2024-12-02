@@ -1,7 +1,19 @@
 package pl.lodz.p.it.eduvirt.entity.eduvirt.network;
 
-import jakarta.persistence.*;
-import lombok.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
+import jakarta.persistence.Transient;
+import jakarta.persistence.Version;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -36,6 +48,10 @@ public class VnicProfilePoolMember {
     @Column(name = "_created_at", updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime createdAt;
+
+    @Transient
+    @Setter
+    private String name;
 
     public VnicProfilePoolMember(UUID id,
                                  Integer vlanId) {
