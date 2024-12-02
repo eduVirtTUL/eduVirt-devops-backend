@@ -9,9 +9,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import pl.lodz.p.it.eduvirt.aspect.logging.LoggerInterceptor;
 import pl.lodz.p.it.eduvirt.dto.resource_group_pool.ResourceGroupPoolDto;
 import pl.lodz.p.it.eduvirt.dto.course.CourseDto;
 import pl.lodz.p.it.eduvirt.dto.course.CreateCourseDto;
+import pl.lodz.p.it.eduvirt.dto.course.SetCourseKeyDto;
 import pl.lodz.p.it.eduvirt.entity.eduvirt.Course;
 import pl.lodz.p.it.eduvirt.entity.eduvirt.ResourceGroupPool;
 import pl.lodz.p.it.eduvirt.exceptions.handle.ExceptionResponse;
@@ -24,6 +26,7 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
+@LoggerInterceptor
 @RequestMapping("/course")
 @RequiredArgsConstructor
 public class CourseController {
@@ -60,4 +63,10 @@ public class CourseController {
         List<ResourceGroupPool> resourceGroupPools = resourceGroupPoolService.getResourceGroupPoolsByCourse(id);
         return ResponseEntity.ok(rgPoolMapper.toRGPoolDtoList(resourceGroupPools.stream()));
     }
+
+    @PatchMapping("/{id}/key")
+public ResponseEntity<CourseDto> setCourseKey(@PathVariable UUID id, @RequestBody SetCourseKeyDto keyDto) {
+    Course course = courseService.setCourseKey(id, keyDto.key());
+    return ResponseEntity.ok(courseMapper.courseToCourseDto(course));
+}
 }
