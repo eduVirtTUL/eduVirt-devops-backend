@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "i72_vnic_profile_pool")
+@Table(name = "vnic_profile_pool")
 @Getter
 @ToString
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
