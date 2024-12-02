@@ -7,6 +7,7 @@ import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.persistence.Transient;
 import jakarta.persistence.Version;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -47,6 +48,10 @@ public class VnicProfilePoolMember {
     @Column(name = "_created_at", updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime createdAt;
+
+    @Transient
+    @Setter
+    private String name;
 
     public VnicProfilePoolMember(UUID id,
                                  Integer vlanId) {
