@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import pl.lodz.p.it.eduvirt.aspect.logging.LoggerInterceptor;
 import pl.lodz.p.it.eduvirt.dto.resource_group_pool.ResourceGroupPoolDto;
 import pl.lodz.p.it.eduvirt.dto.course.CourseDto;
 import pl.lodz.p.it.eduvirt.dto.course.CreateCourseDto;
@@ -26,7 +25,6 @@ import java.util.List;
 import java.util.UUID;
 
 @RestController
-@LoggerInterceptor
 @RequestMapping("/course")
 @RequiredArgsConstructor
 public class CourseController {
@@ -65,8 +63,8 @@ public class CourseController {
     }
 
     @PatchMapping("/{id}/key")
-public ResponseEntity<CourseDto> setCourseKey(@PathVariable UUID id, @RequestBody SetCourseKeyDto keyDto) {
-    Course course = courseService.setCourseKey(id, keyDto.key());
-    return ResponseEntity.ok(courseMapper.courseToCourseDto(course));
-}
+    public ResponseEntity<CourseDto> setCourseKey(@PathVariable UUID id, @RequestBody SetCourseKeyDto keyDto) {
+        Course course = courseService.setCourseKey(id, keyDto.key());
+        return ResponseEntity.ok(courseMapper.courseToCourseDto(course));
+    }
 }

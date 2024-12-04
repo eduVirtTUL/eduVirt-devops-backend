@@ -27,5 +27,7 @@ public interface TeamRepository extends JpaRepository<Team, UUID> {
             "WHERE :userId MEMBER OF t.users " +
             "AND t.course.id = :courseId")
     boolean existsByUserIdAndCourseId(@Param("userId") UUID userId, @Param("courseId") UUID courseId);
+
+    
 }
 

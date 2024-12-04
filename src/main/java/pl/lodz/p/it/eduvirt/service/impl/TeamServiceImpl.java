@@ -20,6 +20,12 @@ public class TeamServiceImpl implements TeamService {
     private final TeamRepository teamRepository;
     private final CourseRepository courseRepository;
 
+    private void validateUserNotInCourse(UUID userId, UUID courseId) {
+        if (teamRepository.existsByUserIdAndCourseId(userId, courseId)) {
+            throw new IllegalStateException("User already has a team in this course"); // change to custom exception
+        }
+    }
+
     @Override
     @Transactional
     public Team createTeam(Team team, UUID courseId) {
@@ -77,12 +83,13 @@ public class TeamServiceImpl implements TeamService {
         Team team = teamRepository.findById(teamId)
                 .orElseThrow(() -> new RuntimeException("Team not found")); 
 
+        validateUserNotInCourse(userId, team.getCourse().getId());
+
         if (team.getUsers().size() >= team.getMaxSize()) {
-            throw new IllegalStateException("Team is full");
+            throw new IllegalStateException("Team is full"); // change to custom exception
         }
 
         team.getUsers().add(userId);
-
         return teamRepository.save(team);
     }
 
@@ -91,25 +98,25 @@ public class TeamServiceImpl implements TeamService {
     public Team joinTeamOrCreate(String key, UUID userId) {
         if (key.startsWith("t")) {
             Team team = teamRepository.findByKey(key)
-                    .orElseThrow(() -> new RuntimeException("Team not found with key: " + key));
+                    .orElseThrow(() -> new RuntimeException("Team not found with key: " + key)); // change to custom exception
+
+            validateUserNotInCourse(userId, team.getCourse().getId());
 
             if (team.getUsers().size() >= team.getMaxSize()) {
-                throw new IllegalStateException("Team is full");
+                throw new IllegalStateException("Team is full"); // change to custom exception
             }
 
             if (team.getUsers().contains(userId)) {
-                throw new IllegalStateException("User already in team");
+                throw new IllegalStateException("User already in team"); // change to custom exception
             }
 
             team.getUsers().add(userId);
             return teamRepository.save(team);
         } else if (key.startsWith("s")) {
             Course course = courseRepository.findByCourseKey(key)
-                    .orElseThrow(() -> new CourseNotFoundException("Course not found with key: " + key));
+                    .orElseThrow(() -> new CourseNotFoundException("Course not found with key: " + key)); // change to custom exception
 
-            if (teamRepository.existsByUserIdAndCourseId(userId, course.getId())) {
-                throw new IllegalStateException("User already has a team in this course");
-            }
+            validateUserNotInCourse(userId, course.getId());
 
             Team newTeam = Team.builder()
                     .name(course.getName() + " - Solo Team")
@@ -122,13 +129,13 @@ public class TeamServiceImpl implements TeamService {
             return teamRepository.save(newTeam);
         }
 
-        throw new IllegalArgumentException("Invalid key format");
+        throw new IllegalArgumentException("Invalid key format"); // change to custom exception
     }
 
     @Override
     public Team removeUserFromTeam(UUID teamId, UUID userId) {
         Team team = teamRepository.findById(teamId)
-                .orElseThrow(() -> new RuntimeException("Team not found")); //TODO change to custom exception
+                .orElseThrow(() -> new RuntimeException("Team not found")); // change to custom exception
 
         team.getUsers().remove(userId);
 
