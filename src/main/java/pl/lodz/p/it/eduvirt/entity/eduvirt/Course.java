@@ -15,7 +15,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @Setter
 @Getter
-@Table(name = "i72_course")
+@Table(name = "course")
 @Entity
 public class Course extends AbstractEntity {
     @Column(name = "name", nullable = false, length = 100)
@@ -32,7 +32,6 @@ public class Course extends AbstractEntity {
     @Size(min = 5, max = 17)
     @Pattern(regexp = "^s[a-zA-Z0-9]{4,16}$")
     private String courseKey;
-
     @Override
     public final boolean equals(Object o) {
         if (this == o) return true;

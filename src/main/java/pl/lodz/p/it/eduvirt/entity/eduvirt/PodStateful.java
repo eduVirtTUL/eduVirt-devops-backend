@@ -9,7 +9,7 @@ import lombok.*;
 @Getter
 @Setter
 @ToString
-@Table(name = "i72_pod_stateful")
+@Table(name = "pod_stateful")
 @Entity
 public class PodStateful extends AbstractEntity {
 

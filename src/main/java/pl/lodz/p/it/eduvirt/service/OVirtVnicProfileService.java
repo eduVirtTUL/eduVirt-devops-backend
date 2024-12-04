@@ -1,16 +1,8 @@
 package pl.lodz.p.it.eduvirt.service;
 
-import pl.lodz.p.it.eduvirt.dto.VnicProfileDto;
-import pl.lodz.p.it.eduvirt.dto.VnicProfilePoolDto;
-
-import java.util.List;
-import java.util.UUID;
+import org.ovirt.engine.sdk4.types.VnicProfile;
 
 public interface OVirtVnicProfileService {
 
-    List<VnicProfileDto> fetchVnicProfiles();
-
-    List<VnicProfilePoolDto> showVnicProfilePool();
-
-    boolean expandVnicProfilePool(UUID vnicProfileId);
+    VnicProfile getVnicProfileById(String vnicProfileId);
 }

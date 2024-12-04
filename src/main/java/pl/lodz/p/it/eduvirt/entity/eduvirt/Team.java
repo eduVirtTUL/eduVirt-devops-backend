@@ -16,7 +16,7 @@ import java.util.UUID;
 @Setter
 @Builder
 @ToString
-@Table(name = "i72_team")
+@Table(name = "team")
 @Entity
 public class Team extends AbstractEntity {
 
@@ -36,7 +36,7 @@ public class Team extends AbstractEntity {
 
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(
-            name = "i72_user_team",
+            name = "user_team",
             joinColumns = @JoinColumn(name = "team_id"),
             uniqueConstraints = @UniqueConstraint(columnNames = {"team_id", "user_id"})
     )
