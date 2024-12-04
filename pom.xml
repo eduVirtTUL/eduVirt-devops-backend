@@ -74,7 +74,7 @@
         <ovirt-api-sdk.version>4.5.1</ovirt-api-sdk.version>
         <lombok.version>1.18.36</lombok.version>
         <mapstruct.version>1.6.2</mapstruct.version>
-        <openapi.version>2.4.0</openapi.version>
+        <openapi.version>2.7.0</openapi.version>
     </properties>
 
     <dependencies>
